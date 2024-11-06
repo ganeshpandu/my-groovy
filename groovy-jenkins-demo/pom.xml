@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>groovy-jenkins-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <!-- Specify the Java version to be used for compiling -->
+        <maven.compiler.source>17</maven.compiler.source>  <!-- Java 17 source version -->
+        <maven.compiler.target>17</maven.compiler.target>  <!-- Java 17 target version -->
+    </properties>
+
+    <dependencies>
+        <!-- Groovy dependency -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>3.0.9</version>
+        </dependency>
+
+        <!-- JUnit 5 for testing (JUnit Real-Time Test Reporter Plugin works best with JUnit 5) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Vintage for compatibility with older JUnit 4 tests (optional) -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven Compiler Plugin (compiles Java code) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>  <!-- Java 17 for compilation -->
+                    <target>17</target>  <!-- Java 17 for compilation -->
+                </configuration>
+            </plugin>
+
+            <!-- Groovy Maven Plugin (allows you to run Groovy scripts during the build) -->
+            <plugin>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.0-rc-4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>execute</goal>  <!-- Goal to execute the Groovy script -->
+                        </goals>
+                        <configuration>
+                            <sourceFiles>
+                                <sourceFile>hello.groovy</sourceFile> <!-- Groovy script to run -->
+                            </sourceFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven Surefire Plugin (for running tests) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <!-- Enable JUnit 5 support -->
+                    <includes>
+                        <include>**/*Test.java</include>  <!-- Run all tests that end in Test -->
+                    </includes>
+                    <properties>
+                        <property>
+                            <name>junit.jupiter.conditions.deactivate</name>
+                            <value>DisabledOnOs</value> <!-- Disable OS specific conditions, optional -->
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
+
